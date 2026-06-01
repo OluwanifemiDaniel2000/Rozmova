@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Funnel Audit · Oluwanifemi Daniel</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f5f5f4;
+    --color-background-tertiary: #eeece6;
+    --color-background-info: #e6f1fb;
+    --color-background-danger: #fcebeb;
+    --color-background-success: #eaf3de;
+    --color-background-warning: #faeeda;
+    --color-text-primary: #111110;
+    --color-text-secondary: #5f5e5a;
+    --color-text-tertiary: #888780;
+    --color-text-info: #185fa5;
+    --color-text-danger: #a32d2d;
+    --color-text-success: #3b6d11;
+    --color-text-warning: #854f0b;
+    --color-border-tertiary: rgba(17,17,16,0.15);
+    --color-border-secondary: rgba(17,17,16,0.3);
+    --color-border-primary: rgba(17,17,16,0.4);
+    --color-border-info: #85b7eb;
+    --color-border-danger: #f09595;
+    --color-border-success: #97c459;
+    --color-border-warning: #ef9f27;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-serif: Georgia, 'Times New Roman', serif;
+    --font-mono: 'Fira Code', 'Cascadia Code', monospace;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background-primary: #1c1c1b;
+      --color-background-secondary: #252524;
+      --color-background-tertiary: #2c2c2a;
+      --color-background-info: #042c53;
+      --color-background-danger: #501313;
+      --color-background-success: #173404;
+      --color-background-warning: #412402;
+      --color-text-primary: #f1efe8;
+      --color-text-secondary: #b4b2a9;
+      --color-text-tertiary: #888780;
+      --color-text-info: #85b7eb;
+      --color-text-danger: #f09595;
+      --color-text-success: #97c459;
+      --color-text-warning: #fac775;
+      --color-border-tertiary: rgba(241,239,232,0.15);
+      --color-border-secondary: rgba(241,239,232,0.3);
+      --color-border-primary: rgba(241,239,232,0.4);
+      --color-border-info: #185fa5;
+      --color-border-danger: #a32d2d;
+      --color-border-success: #3b6d11;
+      --color-border-warning: #854f0b;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text-primary);
+    background: var(--color-background-tertiary);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .wrapper {
+    max-width: 740px;
+    margin: 0 auto;
+    background: var(--color-background-primary);
+    border-radius: var(--border-radius-xl);
+    border: 0.5px solid var(--color-border-tertiary);
+    padding: 2rem;
+  }
+
+  .page-header {
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .page-header p.label {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .page-header p.sub {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 7px 14px;
+    background: transparent;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tab.active {
+    background: var(--color-background-info);
+    color: var(--color-text-info);
+    border-color: var(--color-border-info);
+  }
+  .tab i { font-size: 14px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Metric cards */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .mc {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+  }
+  .mc .mc-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+  .mc .mc-val { font-size: 24px; font-weight: 500; }
+  .mc .mc-drop { font-size: 12px; margin-top: 4px; }
+
+  /* Funnel bars card */
+  .card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .card-title { font-size: 13px; font-weight: 500; margin-bottom: 1.25rem; }
+
+  .bar-row { margin-bottom: 1rem; }
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .bar-meta span:last-child { color: var(--color-text-secondary); }
+  .bar-track {
+    height: 12px;
+    background: var(--color-background-secondary);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: #185fa5; border-radius: 6px; }
+
+  .drop-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px 4px;
+    font-size: 12px;
+  }
+  .drop-note i { font-size: 14px; }
+  .drop-note.danger { color: var(--color-text-danger); }
+  .drop-note.warning { color: var(--color-text-warning); }
+
+  /* Alert box */
+  .alert {
+    border: 0.5px solid var(--color-border-warning);
+    background: var(--color-background-warning);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem;
+  }
+  .alert .alert-label {
+    font-size: 11px;
+    color: var(--color-text-warning);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .alert h3 { font-size: 15px; font-weight: 500; color: var(--color-text-warning); margin-bottom: 8px; }
+  .alert p { font-size: 13px; color: var(--color-text-warning); line-height: 1.6; margin-bottom: 1rem; }
+  .alert button {
+    padding: 8px 16px;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+  }
+
+  /* Hypothesis backlog */
+  .hyp-legend {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+  .legend-dots { display: flex; gap: 12px; flex-wrap: wrap; }
+  .legend-dot { display: flex; align-items: center; gap: 4px; }
+  .dot-sq { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .fbtn {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: transparent;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+  }
+  .fbtn.active {
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-secondary);
+  }
+
+  .hyp-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 10px;
+    transition: border-color 0.15s;
+  }
+  .hyp-card:hover { border-color: var(--color-border-secondary); }
+  .hyp-inner { display: flex; gap: 1rem; align-items: flex-start; }
+  .ice-box { min-width: 48px; text-align: center; flex-shrink: 0; padding-top: 2px; }
+  .ice-num { font-size: 22px; font-weight: 500; line-height: 1; }
+  .ice-lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .hyp-body { flex: 1; min-width: 0; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .bdg { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); display: inline-block; }
+  .bdg-info { background: var(--color-background-info); color: var(--color-text-info); }
+  .bdg-warn { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .bdg-succ { background: var(--color-background-success); color: var(--color-text-success); }
+  .bdg-gray { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .hyp-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .hyp-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 12px; }
+  .ice-bars { display: flex; gap: 16px; }
+  .ice-bar-item { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+  .ice-bar-lbl { font-size: 11px; color: var(--color-text-secondary); white-space: nowrap; }
+  .ice-bar-track { height: 4px; background: var(--color-background-secondary); border-radius: 2px; flex: 1; }
+  .ice-bar-fill { height: 100%; border-radius: 2px; }
+  .ice-bar-val { font-size: 11px; color: var(--color-text-secondary); }
+  .gen-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    background: transparent;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    flex-shrink: 0;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 4px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .gen-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+
+  /* Brief section */
+  .brief-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-secondary);
+  }
+  .brief-empty i { font-size: 36px; display: block; margin: 0 auto 1rem; }
+  .brief-empty h3 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+  .brief-empty p { font-size: 13px; line-height: 1.6; margin-bottom: 1.5rem; }
+  .brief-empty button {
+    padding: 8px 20px;
+    background: transparent;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    color: var(--color-text-secondary);
+  }
+
+  .brief-loading { text-align: center; padding: 3rem 1rem; }
+  .brief-loading i { font-size: 28px; display: block; margin: 0 auto 1rem; color: var(--color-text-secondary); }
+  .brief-loading p { font-size: 14px; color: var(--color-text-secondary); }
+  .brief-loading p.sub { font-size: 12px; margin-top: 8px; }
+
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .spin { animation: spin 1.2s linear infinite; }
+
+  .brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .brief-cell {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+  }
+  .brief-cell.full { grid-column: 1 / -1; }
+  .brief-cell-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+  }
+  .brief-cell p { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
+  .brief-cell p.primary { color: var(--color-text-primary); }
+  .brief-footer {
+    margin-top: 1rem;
+    padding: 10px 14px;
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .brief-grid { grid-template-columns: 1fr; }
+    .brief-cell.full { grid-column: 1; }
+    .hyp-inner { flex-wrap: wrap; }
+    .gen-btn { margin-top: 8px; }
+    .ice-bars { flex-wrap: wrap; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="page-header">
+    <p class="label">Application demo &middot; Oluwanifemi Daniel &middot; Growth Marketing Specialist</p>
+    <h1>Funnel conversion audit</h1>
+    <p class="sub">A working demo showing how I'd analyse and optimise your page view &rarr; authorization &rarr; first therapy &rarr; first purchase funnel</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('funnel', this)">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i> Funnel analysis
+    </button>
+    <button class="tab" onclick="switchTab('hyp', this)">
+      <i class="ti ti-bulb" aria-hidden="true"></i> Hypothesis backlog
+    </button>
+    <button class="tab" onclick="switchTab('brief', this)">
+      <i class="ti ti-clipboard-text" aria-hidden="true"></i> Test brief generator
+    </button>
+  </div>
+
+  <!-- FUNNEL TAB -->
+  <div id="s-funnel" class="section active">
+    <div class="metric-grid">
+      <div class="mc">
+        <div class="mc-label">Page views</div>
+        <div class="mc-val">10,000</div>
+        <div class="mc-drop" style="color:var(--color-text-secondary);">100% &mdash; baseline</div>
+      </div>
+      <div class="mc">
+        <div class="mc-label">Authorization</div>
+        <div class="mc-val">1,800</div>
+        <div class="mc-drop" style="color:var(--color-text-danger);">&darr; 82% drop-off</div>
+      </div>
+      <div class="mc">
+        <div class="mc-label">Therapy created</div>
+        <div class="mc-val">810</div>
+        <div class="mc-drop" style="color:var(--color-text-warning);">&darr; 55% drop-off</div>
+      </div>
+      <div class="mc">
+        <div class="mc-label">First purchase</div>
+        <div class="mc-val">324</div>
+        <div class="mc-drop" style="color:var(--color-text-warning);">&darr; 60% drop-off</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Funnel drop-off by stage</p>
+
+      <div class="bar-row">
+        <div class="bar-meta"><span>Page view</span><span>10,000 &middot; 100%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="drop-note danger"><i class="ti ti-arrow-down" aria-hidden="true"></i><span>82% drop &mdash; 8,200 visitors never signed up (biggest opportunity)</span></div>
+
+      <div class="bar-row">
+        <div class="bar-meta"><span>Authorization</span><span>1,800 &middot; 18%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:18%"></div></div>
+      </div>
+      <div class="drop-note warning"><i class="ti ti-arrow-down" aria-hidden="true"></i><span>55% drop &mdash; 990 signed-up users never booked a session</span></div>
+
+      <div class="bar-row">
+        <div class="bar-meta"><span>First therapy created</span><span>810 &middot; 8.1%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:8.1%"></div></div>
+      </div>
+      <div class="drop-note warning"><i class="ti ti-arrow-down" aria-hidden="true"></i><span>60% drop &mdash; 486 users booked but didn't pay</span></div>
+
+      <div class="bar-row">
+        <div class="bar-meta"><span>First purchase</span><span>324 &middot; 3.2% overall</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:3.2%"></div></div>
+      </div>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Primary opportunity</div>
+      <h3>Page view &rarr; authorization is leaking 82% of all traffic</h3>
+      <p>For a high-trust product like therapy, this gap usually reflects trust anxiety, weak message-to-audience fit, or post-click experience misalignment with ad creative. A 5 percentage point improvement here (18% &rarr; 23% CVR) would add ~500 additional qualified users monthly at zero extra acquisition spend.</p>
+      <button onclick="switchTab('hyp', document.querySelectorAll('.tab')[1])">View prioritised hypotheses &rarr;</button>
+    </div>
+  </div>
+
+  <!-- HYPOTHESIS TAB -->
+  <div id="s-hyp" class="section">
+    <div class="hyp-legend">
+      <span>ICE score = Impact + Confidence + Ease (each 1&ndash;10, max 30). Sorted highest first.</span>
+      <div class="legend-dots">
+        <div class="legend-dot"><div class="dot-sq" style="background:var(--color-background-success)"></div><span style="color:var(--color-text-success);">&ge;24 Priority 0</span></div>
+        <div class="legend-dot"><div class="dot-sq" style="background:var(--color-background-warning)"></div><span style="color:var(--color-text-warning);">20&ndash;23 Priority 1</span></div>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="fbtn active" onclick="filterHyp('all', this)">All stages</button>
+      <button class="fbtn" onclick="filterHyp('pv', this)">Page view &rarr; auth</button>
+      <button class="fbtn" onclick="filterHyp('au', this)">Auth &rarr; therapy</button>
+      <button class="fbtn" onclick="filterHyp('th', this)">Therapy &rarr; purchase</button>
+    </div>
+
+    <div id="hlist"></div>
+  </div>
+
+  <!-- BRIEF TAB -->
+  <div id="s-brief" class="section">
+    <div id="bwrap">
+      <div class="brief-empty">
+        <i class="ti ti-clipboard-text" aria-hidden="true"></i>
+        <h3>No hypothesis selected yet</h3>
+        <p>Go to the hypothesis backlog and click &ldquo;Generate brief&rdquo; on any test idea to produce a complete, statistically grounded A/B test brief.</p>
+        <button onclick="switchTab('hyp', document.querySelectorAll('.tab')[1])">Browse hypotheses &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const hyps = [
+  {id:1,title:"Add trust signals and social proof below the hero CTA",desc:"Insert therapist count, privacy certifications (GDPR/data protection), star ratings, and 'cancel anytime' language directly below the sign-up button. In a high-trust category like therapy, reducing commitment anxiety before authorization is the single highest-leverage change.",stage:"Page View \u2192 Authorization",sk:"pv",type:"Trust",ch:"All channels",i:9,c:8,e:9,ice:26},
+  {id:2,title:"Switch hero headline to outcome-first messaging",desc:"Replace feature-led copy ('Find your therapist today') with a results-anchored headline ('87% of users feel heard within 2 sessions'). Outcome messaging resonates faster in emotional categories and reduces cognitive load before sign-up.",stage:"Page View \u2192 Authorization",sk:"pv",type:"Copy",ch:"All channels",i:9,c:8,e:7,ice:24},
+  {id:3,title:"Show progress indicator and time estimate during onboarding",desc:"Display a visible step tracker ('Step 2 of 4') and 'Takes about 3 minutes' during the post-signup flow. Transparency about effort length is one of the most reliable levers for reducing mid-flow abandonment in multi-step qualification sequences.",stage:"Authorization \u2192 First therapy created",sk:"au",type:"UX",ch:"All channels",i:7,c:8,e:9,ice:24},
+  {id:4,title:"Test a discounted first session at the purchase paywall",desc:"A/B test a subsidised first session (50% off or \u00A31 access) versus full price at the paywall. Removes first-timer financial risk. Track 90-day LTV alongside conversion to verify profitability before scaling.",stage:"First therapy created \u2192 Purchase",sk:"th",type:"Pricing",ch:"All channels",i:9,c:8,e:6,ice:23},
+  {id:5,title:"Create audience-specific landing pages per ad creative theme",desc:"Deploy separate post-click pages for each Meta/TikTok creative theme \u2014 anxiety, burnout, relationships. Message match between ad and landing page is one of the highest-ROI CRO levers in paid social, and among the most commonly skipped.",stage:"Page View \u2192 Authorization",sk:"pv",type:"Message match",ch:"Meta / TikTok",i:9,c:7,e:6,ice:22},
+  {id:6,title:"Add soft urgency cue at the paywall using therapist availability",desc:"Show 'Your therapist has reserved this slot for 24 hours' at the purchase step. Urgency framing must be authentic and non-aggressive for mental health \u2014 therapist schedule scarcity is real and credible, unlike a countdown timer.",stage:"First therapy created \u2192 Purchase",sk:"th",type:"Conversion trigger",ch:"All channels",i:8,c:6,e:7,ice:21},
+  {id:7,title:"Shorten the therapist-matching quiz to 5 core questions",desc:"Reduce the post-signup questionnaire to the 5 questions most predictive of therapist match quality. Long qualification flows after authorization are a leading cause of drop-off before therapy creation. A/B test abbreviated vs. full version.",stage:"Authorization \u2192 First therapy created",sk:"au",type:"Flow reduction",ch:"All channels",i:8,c:7,e:5,ice:20}
+];
+
+const briefs = {
+  1:{hypothesis:"Displaying social proof elements and trust signals directly below the primary CTA will reduce sign-up anxiety and increase the page view to authorization conversion rate.",control:"Current hero page with CTA button only, no supporting trust context.",variant:"Hero page with CTA button followed immediately by: verified therapist count, GDPR badge, average star rating from completed sessions, and 'cancel anytime, no commitment' micro-copy.",primaryMetric:"Authorization (sign-up) conversion rate",secondaryMetrics:["Time on page before CTA click","Scroll depth to CTA","30-day retention of authorized users"],minimumDetectableEffect:"2 percentage points lift (18% \u2192 20%)",estimatedSampleSize:"~6,000 visitors per variant (80% power, 95% confidence)",testDuration:"2\u20133 weeks at current traffic",successCriteria:"Variant achieves \u22652pp lift in authorization CVR with p\u22640.05, no statistically significant drop in downstream therapy creation rate.",risks:"Trust signals must be accurate and up-to-date; stale numbers erode rather than build trust. Run a data audit before launch."},
+  2:{hypothesis:"Replacing feature-led headline copy with outcome-anchored social proof will shorten cognitive processing time and increase sign-up intent for users arriving from paid and organic channels.",control:"Current hero headline focused on product features or action ('Find your therapist today').",variant:"Outcome-led headline referencing measurable user results ('87% of users feel heard within 2 sessions') with supporting sub-headline naming the product.",primaryMetric:"Authorization conversion rate",secondaryMetrics:["Headline engagement via heatmap click data","Bounce rate","Cost per authorized user from paid channels"],minimumDetectableEffect:"1.5 percentage points",estimatedSampleSize:"~8,000 visitors per variant",testDuration:"2\u20134 weeks",successCriteria:"Variant headline increases authorization CVR by \u22651.5pp with p\u22640.05. No negative impact on therapy creation rate.",risks:"Outcome claim must be verifiable \u2014 unsubstantiated statistics in mental health can trigger regulatory concerns. Ensure the 87% figure is defensible before publishing."},
+  3:{hypothesis:"Displaying a progress indicator and estimated completion time during onboarding will reduce perceived friction and lower mid-flow abandonment between authorization and therapy creation.",control:"Current onboarding flow with no visible step count or time estimate.",variant:"Onboarding flow with persistent 'Step X of 4' progress bar and 'Takes about 3 minutes' label visible from the first screen.",primaryMetric:"Authorization to first therapy created conversion rate",secondaryMetrics:["Time to complete onboarding","Drop-off rate per individual onboarding step","Support ticket volume related to onboarding confusion"],minimumDetectableEffect:"3 percentage points (45% \u2192 48% step conversion)",estimatedSampleSize:"~2,500 authorized users per variant",testDuration:"3\u20134 weeks",successCriteria:"Variant reduces onboarding abandonment by \u22653pp with p\u22640.05.",risks:"Step count may backfire if actual steps feel longer than implied. Audit actual step count and time before setting the label."},
+  4:{hypothesis:"Offering a subsidised first session at the paywall will remove the financial risk barrier for first-time therapy buyers, increasing first purchase conversion rate without destroying downstream LTV.",control:"Full-price first session presented at the paywall.",variant:"Discounted first session (50% off or fixed low entry price) with full pricing shown for subsequent sessions.",primaryMetric:"First purchase conversion rate",secondaryMetrics:["90-day LTV per cohort","Rebooking rate after first session","CAC payback period"],minimumDetectableEffect:"4 percentage points (40% \u2192 44%)",estimatedSampleSize:"~1,500 therapy-created users per variant",testDuration:"4\u20136 weeks (allow time for LTV signal to emerge)",successCriteria:"Variant increases first purchase CVR by \u22654pp. 90-day LTV of discounted cohort is within 15% of control cohort at 90-day mark.",risks:"Discount may attract price-sensitive users with lower retention. Gate the test result on LTV, not conversion rate alone, before scaling."},
+  5:{hypothesis:"Matching post-click landing page messaging to the specific creative theme of the originating ad will increase relevance, reduce bounce, and lift authorization conversion from paid social traffic.",control:"Single generic landing page served to all paid social traffic regardless of ad creative.",variant:"Three audience-specific landing pages (anxiety, burnout, relationships) each mirroring the language, imagery, and emotional hook of the corresponding ad creative.",primaryMetric:"Authorization CVR from paid social traffic",secondaryMetrics:["Bounce rate by landing page variant","Cost per authorized user (CPL) from Meta and TikTok","Quality score / relevance score on ad platforms"],minimumDetectableEffect:"2.5 percentage points",estimatedSampleSize:"~4,000 paid visitors per variant",testDuration:"2\u20133 weeks (traffic permitting)",successCriteria:"Each audience-specific page outperforms the generic page by \u22652.5pp CVR with p\u22640.05.",risks:"Requires coordination between growth, design, and content teams. Misalignment between ad copy and landing copy can worsen performance if not QA'd before launch."},
+  6:{hypothesis:"Displaying a therapist-specific availability hold at the payment screen will introduce authentic, non-manipulative urgency that increases the therapy created to first purchase conversion rate.",control:"Standard payment screen with no availability messaging.",variant:"Payment screen with 'Your therapist has reserved this slot for 24 hours' message alongside booking summary.",primaryMetric:"First purchase conversion rate from therapy-created users",secondaryMetrics:["Return rate to purchase page within 24 hours","Cancellation rate post-purchase","Trust perception via post-session survey"],minimumDetectableEffect:"3 percentage points",estimatedSampleSize:"~1,500 therapy-created users per variant",testDuration:"3\u20134 weeks",successCriteria:"Variant increases first purchase CVR by \u22653pp without a statistically significant increase in cancellations or negative survey responses.",risks:"The availability hold must be technically real, not cosmetic. Fabricated scarcity in a mental health context is an ethical and reputational risk."},
+  7:{hypothesis:"Reducing the therapist-matching questionnaire to the 5 highest-signal questions will lower friction after authorization and increase the rate of users reaching the therapy creation step.",control:"Current full-length therapist-matching questionnaire.",variant:"Abbreviated 5-question version covering the highest-predictive attributes for therapist match quality.",primaryMetric:"Authorization to therapy created conversion rate",secondaryMetrics:["Questionnaire completion rate","Time to complete questionnaire","Therapist match satisfaction score (post-session survey)"],minimumDetectableEffect:"3 percentage points",estimatedSampleSize:"~2,000 authorized users per variant",testDuration:"3 weeks",successCriteria:"Abbreviated version increases auth-to-therapy CVR by \u22653pp with p\u22640.05. Match satisfaction score does not decline significantly in variant cohort.",risks:"Shortening the quiz may reduce match quality if the removed questions carry signal not captured in the 5 retained. Run a feature importance analysis on historical match data before deciding which questions to cut."}
+};
+
+let currentFilter = 'all';
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('s-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function filterHyp(k, btn) {
+  currentFilter = k;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHyps();
+}
+
+function stageBadge(sk) {
+  if (sk === 'pv') return 'bdg-info';
+  if (sk === 'au') return 'bdg-warn';
+  return 'bdg-succ';
+}
+
+function iceColor(v) {
+  if (v >= 24) return 'var(--color-text-success)';
+  if (v >= 20) return 'var(--color-text-warning)';
+  return 'var(--color-text-danger)';
+}
+
+function renderHyps() {
+  const el = document.getElementById('hlist');
+  const arr = (currentFilter === 'all' ? [...hyps] : hyps.filter(h => h.sk === currentFilter))
+    .sort((a, b) => b.ice - a.ice);
+
+  el.innerHTML = arr.map(h => `
+    <div class="hyp-card">
+      <div class="hyp-inner">
+        <div class="ice-box">
+          <div class="ice-num" style="color:${iceColor(h.ice)}">${h.ice}</div>
+          <div class="ice-lbl">ICE</div>
+        </div>
+        <div class="hyp-body">
+          <div class="badges">
+            <span class="bdg ${stageBadge(h.sk)}">${h.stage}</span>
+            <span class="bdg bdg-gray">${h.type}</span>
+            ${h.ch !== 'All channels' ? `<span class="bdg bdg-gray">${h.ch}</span>` : ''}
+          </div>
+          <div class="hyp-title">${h.title}</div>
+          <div class="hyp-desc">${h.desc}</div>
+          <div class="ice-bars">
+            ${[['Impact',h.i,'#185fa5'],['Confidence',h.c,'#0F6E56'],['Ease',h.e,'#BA7517']].map(([l,v,col]) => `
+              <div class="ice-bar-item">
+                <span class="ice-bar-lbl">${l}</span>
+                <div class="ice-bar-track"><div class="ice-bar-fill" style="width:${v*10}%;background:${col}"></div></div>
+                <span class="ice-bar-val">${v}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <button class="gen-btn" onclick="loadBrief(${h.id})">Generate brief &rarr;</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function loadBrief(id) {
+  const h = hyps.find(x => x.id === id);
+  const b = briefs[id];
+  switchTab('brief', document.querySelectorAll('.tab')[2]);
+  const wrap = document.getElementById('bwrap');
+
+  wrap.innerHTML = `
+    <div class="brief-loading">
+      <i class="ti ti-loader-2 spin" aria-hidden="true"></i>
+      <p>Generating A/B test brief&hellip;</p>
+      <p class="sub">&ldquo;${h.title}&rdquo;</p>
+    </div>`;
+
+  setTimeout(() => {
+    const sc = stageBadge(h.sk);
+    wrap.innerHTML = `
+      <div>
+        <div class="badges" style="margin-bottom:1.25rem;">
+          <span class="bdg ${sc}">${h.stage}</span>
+          <span style="font-size:14px;font-weight:500;">${h.title}</span>
+        </div>
+        <div class="brief-grid">
+          <div class="brief-cell full">
+            <div class="brief-cell-label">Hypothesis</div>
+            <p class="primary">${b.hypothesis}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Control &mdash; current experience</div>
+            <p>${b.control}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Variant &mdash; test experience</div>
+            <p>${b.variant}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Primary metric</div>
+            <p>${b.primaryMetric}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Estimated sample size</div>
+            <p>${b.estimatedSampleSize}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Min. detectable effect</div>
+            <p>${b.minimumDetectableEffect}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Test duration</div>
+            <p>${b.testDuration}</p>
+          </div>
+          <div class="brief-cell full">
+            <div class="brief-cell-label">Success criteria</div>
+            <p>${b.successCriteria}</p>
+          </div>
+          <div class="brief-cell full">
+            <div class="brief-cell-label">Risks and mitigation</div>
+            <p>${b.risks}</p>
+          </div>
+          <div class="brief-cell">
+            <div class="brief-cell-label">Secondary metrics</div>
+            ${b.secondaryMetrics.map(m => `<p>&middot; ${m}</p>`).join('')}
+          </div>
+        </div>
+        <div class="brief-footer">Generated by Oluwanifemi Daniel &middot; CRO Funnel Audit Demo &middot; Growth Marketing Specialist application</div>
+      </div>`;
+  }, 900);
+}
+
+renderHyps();
+</script>
+</body>
+</html>
