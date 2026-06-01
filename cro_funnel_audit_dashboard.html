@@ -1,0 +1,292 @@
+
+<h2 class="sr-only">CRO funnel audit dashboard — growth marketing specialist application by Oluwanifemi Daniel</h2>
+
+<style>
+.cro-tab{padding:7px 14px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;color:var(--color-text-secondary);font-family:var(--font-sans);}
+.cro-tab.act{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);}
+.cro-sec{display:none;}
+.cro-sec.on{display:block;}
+.mc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;}
+.hyp{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:10px;}
+.hyp:hover{border-color:var(--color-border-secondary);}
+.bdg{font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);display:inline-block;}
+.fbtn{padding:6px 12px;font-size:12px;background:transparent;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;color:var(--color-text-secondary);font-family:var(--font-sans);}
+.fbtn.on{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-secondary);}
+.gbtn{padding:6px 14px;font-size:12px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;color:var(--color-text-secondary);font-family:var(--font-sans);flex-shrink:0;white-space:nowrap;}
+.gbtn:hover{background:var(--color-background-secondary);color:var(--color-text-primary);}
+.bf{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;}
+.flabel{margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--color-text-secondary);}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+</style>
+
+<div style="padding-bottom:1rem;margin-bottom:1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);">
+  <p style="margin:0 0 4px;font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:1px;">Application demo · Oluwanifemi Daniel · Growth Marketing Specialist</p>
+  <h1 style="margin:0 0 4px;font-size:22px;font-weight:500;">Funnel conversion audit</h1>
+  <p style="margin:0;font-size:13px;color:var(--color-text-secondary);">A working demo showing how I'd analyse and optimise your page view → authorization → first therapy → first purchase funnel</p>
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;">
+  <button class="cro-tab act" onclick="sTab('funnel',this)"><i class="ti ti-chart-bar" aria-hidden="true" style="margin-right:5px;font-size:14px;vertical-align:-2px;"></i>Funnel analysis</button>
+  <button class="cro-tab" onclick="sTab('hyp',this)"><i class="ti ti-bulb" aria-hidden="true" style="margin-right:5px;font-size:14px;vertical-align:-2px;"></i>Hypothesis backlog</button>
+  <button class="cro-tab" onclick="sTab('brief',this)"><i class="ti ti-clipboard-text" aria-hidden="true" style="margin-right:5px;font-size:14px;vertical-align:-2px;"></i>Test brief generator</button>
+</div>
+
+<div id="s-funnel" class="cro-sec on">
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:1.5rem;">
+    <div class="mc">
+      <p style="margin:0 0 6px;font-size:12px;color:var(--color-text-secondary);">Page views</p>
+      <p style="margin:0;font-size:24px;font-weight:500;">10,000</p>
+      <p style="margin:4px 0 0;font-size:12px;color:var(--color-text-secondary);">100% — baseline</p>
+    </div>
+    <div class="mc">
+      <p style="margin:0 0 6px;font-size:12px;color:var(--color-text-secondary);">Authorization</p>
+      <p style="margin:0;font-size:24px;font-weight:500;">1,800</p>
+      <p style="margin:4px 0 0;font-size:12px;color:var(--color-text-danger);">↓ 82% drop-off</p>
+    </div>
+    <div class="mc">
+      <p style="margin:0 0 6px;font-size:12px;color:var(--color-text-secondary);">Therapy created</p>
+      <p style="margin:0;font-size:24px;font-weight:500;">810</p>
+      <p style="margin:4px 0 0;font-size:12px;color:var(--color-text-warning);">↓ 55% drop-off</p>
+    </div>
+    <div class="mc">
+      <p style="margin:0 0 6px;font-size:12px;color:var(--color-text-secondary);">First purchase</p>
+      <p style="margin:0;font-size:24px;font-weight:500;">324</p>
+      <p style="margin:4px 0 0;font-size:12px;color:var(--color-text-warning);">↓ 60% drop-off</p>
+    </div>
+  </div>
+
+  <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1.5rem;">
+    <p style="margin:0 0 1.25rem;font-size:13px;font-weight:500;">Funnel drop-off by stage</p>
+
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:13px;">Page view</span>
+        <span style="font-size:13px;color:var(--color-text-secondary);">10,000 · 100%</span>
+      </div>
+      <div style="height:12px;background:var(--color-background-secondary);border-radius:6px;overflow:hidden;">
+        <div style="width:100%;height:100%;background:#3266ad;border-radius:6px;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;margin:0 0 10px 4px;">
+      <i class="ti ti-arrow-down" aria-hidden="true" style="font-size:14px;color:var(--color-text-danger);"></i>
+      <span style="font-size:12px;color:var(--color-text-danger);font-weight:500;">82% drop — 8,200 visitors never signed up (biggest opportunity)</span>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:13px;">Authorization</span>
+        <span style="font-size:13px;color:var(--color-text-secondary);">1,800 · 18%</span>
+      </div>
+      <div style="height:12px;background:var(--color-background-secondary);border-radius:6px;overflow:hidden;">
+        <div style="width:18%;height:100%;background:#3266ad;border-radius:6px;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;margin:0 0 10px 4px;">
+      <i class="ti ti-arrow-down" aria-hidden="true" style="font-size:14px;color:var(--color-text-warning);"></i>
+      <span style="font-size:12px;color:var(--color-text-warning);">55% drop — 990 signed-up users never booked a session</span>
+    </div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:13px;">First therapy created</span>
+        <span style="font-size:13px;color:var(--color-text-secondary);">810 · 8.1%</span>
+      </div>
+      <div style="height:12px;background:var(--color-background-secondary);border-radius:6px;overflow:hidden;">
+        <div style="width:8.1%;height:100%;background:#3266ad;border-radius:6px;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;margin:0 0 10px 4px;">
+      <i class="ti ti-arrow-down" aria-hidden="true" style="font-size:14px;color:var(--color-text-warning);"></i>
+      <span style="font-size:12px;color:var(--color-text-warning);">60% drop — 486 users booked but didn't pay</span>
+    </div>
+
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:13px;">First purchase</span>
+        <span style="font-size:13px;color:var(--color-text-secondary);">324 · 3.2% overall</span>
+      </div>
+      <div style="height:12px;background:var(--color-background-secondary);border-radius:6px;overflow:hidden;">
+        <div style="width:3.2%;height:100%;background:#3266ad;border-radius:6px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);border-radius:var(--border-radius-lg);padding:1.25rem;">
+    <p style="margin:0 0 4px;font-size:11px;color:var(--color-text-warning);text-transform:uppercase;letter-spacing:0.5px;font-weight:500;"><i class="ti ti-alert-triangle" aria-hidden="true" style="margin-right:4px;vertical-align:-2px;"></i>Primary opportunity</p>
+    <p style="margin:0 0 8px;font-size:15px;font-weight:500;color:var(--color-text-warning);">Page view → authorization is leaking 82% of all traffic</p>
+    <p style="margin:0 0 1rem;font-size:13px;color:var(--color-text-warning);line-height:1.6;">For a high-trust product like therapy, this gap usually reflects trust anxiety, weak message-to-audience fit, or post-click experience misalignment with ad creative. A 5 percentage point improvement here (18% → 23% CVR) would add ~500 additional qualified users monthly at zero extra acquisition spend.</p>
+    <button onclick="sTab('hyp',document.querySelectorAll('.cro-tab')[1])" style="padding:8px 16px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);">View prioritised hypotheses ↗</button>
+  </div>
+</div>
+
+<div id="s-hyp" class="cro-sec">
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <span style="font-size:12px;color:var(--color-text-secondary);">ICE score = Impact + Confidence + Ease (each 1–10, max 30). Sorted highest first.</span>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <span style="display:flex;align-items:center;gap:4px;font-size:12px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--color-background-success);display:inline-block;"></span><span style="color:var(--color-text-success);">≥24 Priority 0</span></span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:12px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--color-background-warning);display:inline-block;"></span><span style="color:var(--color-text-warning);">20–23 Priority 1</span></span>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;">
+    <button class="fbtn on" onclick="filt('all',this)">All stages</button>
+    <button class="fbtn" onclick="filt('pv',this)">Page view → auth</button>
+    <button class="fbtn" onclick="filt('au',this)">Auth → therapy</button>
+    <button class="fbtn" onclick="filt('th',this)">Therapy → purchase</button>
+  </div>
+  <div id="hlist"></div>
+</div>
+
+<div id="s-brief" class="cro-sec">
+  <div id="bwrap">
+    <div style="text-align:center;padding:3rem 1rem;color:var(--color-text-secondary);">
+      <i class="ti ti-clipboard-text" aria-hidden="true" style="font-size:36px;display:block;margin:0 auto 1rem;"></i>
+      <p style="margin:0 0 8px;font-size:15px;font-weight:500;color:var(--color-text-primary);">No hypothesis selected yet</p>
+      <p style="margin:0 0 1.5rem;font-size:13px;line-height:1.6;">Go to the hypothesis backlog and click "Generate brief" on any test idea. Claude API will produce a complete, statistically grounded A/B test brief in seconds.</p>
+      <button onclick="sTab('hyp',document.querySelectorAll('.cro-tab')[1])" style="padding:8px 20px;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;font-family:var(--font-sans);color:var(--color-text-secondary);">Browse hypotheses ↗</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const hyps=[
+  {id:1,title:"Add trust signals and social proof below the hero CTA",desc:"Insert therapist count, privacy certifications (GDPR/data protection), star ratings, and 'cancel anytime' language directly below the sign-up button. In a high-trust category like therapy, reducing commitment anxiety before authorization is the single highest-leverage change.",stage:"Page View → Authorization",sk:"pv",type:"Trust",ch:"All channels",i:9,c:8,e:9,ice:26},
+  {id:2,title:"Switch hero headline to outcome-first messaging",desc:"Replace feature-led copy ('Find your therapist today') with a results-anchored headline ('87% of users feel heard within 2 sessions'). Outcome messaging resonates faster in emotional categories and reduces cognitive load before sign-up.",stage:"Page View → Authorization",sk:"pv",type:"Copy",ch:"All channels",i:9,c:8,e:7,ice:24},
+  {id:3,title:"Show progress indicator and time estimate during onboarding",desc:"Display a visible step tracker ('Step 2 of 4') and 'Takes about 3 minutes' during the post-signup flow. Transparency about effort length is one of the most reliable levers for reducing mid-flow abandonment in multi-step qualification sequences.",stage:"Authorization → First therapy created",sk:"au",type:"UX",ch:"All channels",i:7,c:8,e:9,ice:24},
+  {id:4,title:"Test a discounted first session at the purchase paywall",desc:"A/B test a subsidised first session (50% off or £1 access) versus full price at the paywall. Removes first-timer financial risk. Track 90-day LTV alongside conversion to verify profitability before scaling.",stage:"First therapy created → Purchase",sk:"th",type:"Pricing",ch:"All channels",i:9,c:8,e:6,ice:23},
+  {id:5,title:"Create audience-specific landing pages per ad creative theme",desc:"Deploy separate post-click pages for each Meta/TikTok creative theme — anxiety, burnout, relationships. Message match between ad and landing page is one of the highest-ROI CRO levers in paid social, and among the most commonly skipped.",stage:"Page View → Authorization",sk:"pv",type:"Message match",ch:"Meta / TikTok",i:9,c:7,e:6,ice:22},
+  {id:6,title:"Add soft urgency cue at the paywall using therapist availability",desc:"Show 'Your therapist has reserved this slot for 24 hours' at the purchase step. Urgency framing must be authentic and non-aggressive for mental health — therapist schedule scarcity is real and credible, unlike a countdown timer.",stage:"First therapy created → Purchase",sk:"th",type:"Conversion trigger",ch:"All channels",i:8,c:6,e:7,ice:21},
+  {id:7,title:"Shorten the therapist-matching quiz to 5 core questions",desc:"Reduce the post-signup questionnaire to the 5 questions most predictive of therapist match quality. Long qualification flows after authorization are a leading cause of drop-off before therapy creation. A/B test abbreviated vs. full version.",stage:"Authorization → First therapy created",sk:"au",type:"Flow reduction",ch:"All channels",i:8,c:7,e:5,ice:20}
+];
+let cf='all';
+
+function sTab(n,btn){
+  document.querySelectorAll('.cro-sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.cro-tab').forEach(b=>b.classList.remove('act'));
+  document.getElementById('s-'+n).classList.add('on');
+  btn.classList.add('act');
+}
+
+function filt(k,btn){
+  cf=k;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderH();
+}
+
+function ssc(sk){
+  if(sk==='pv') return 'background:var(--color-background-info);color:var(--color-text-info);';
+  if(sk==='au') return 'background:var(--color-background-warning);color:var(--color-text-warning);';
+  return 'background:var(--color-background-success);color:var(--color-text-success);';
+}
+
+function ic(v){
+  if(v>=24) return 'var(--color-text-success)';
+  if(v>=20) return 'var(--color-text-warning)';
+  return 'var(--color-text-danger)';
+}
+
+function renderH(){
+  const el=document.getElementById('hlist');
+  const arr=cf==='all'?[...hyps].sort((a,b)=>b.ice-a.ice):hyps.filter(h=>h.sk===cf).sort((a,b)=>b.ice-a.ice);
+  el.innerHTML=arr.map(h=>`
+    <div class="hyp">
+      <div style="display:flex;gap:1rem;align-items:flex-start;">
+        <div style="min-width:48px;text-align:center;flex-shrink:0;padding-top:2px;">
+          <div style="font-size:22px;font-weight:500;color:${ic(h.ice)};line-height:1;">${h.ice}</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px;">ICE</div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
+            <span class="bdg" style="${ssc(h.sk)}">${h.stage}</span>
+            <span class="bdg" style="background:var(--color-background-secondary);color:var(--color-text-secondary);">${h.type}</span>
+            ${h.ch!=='All channels'?`<span class="bdg" style="background:var(--color-background-secondary);color:var(--color-text-secondary);">${h.ch}</span>`:''}
+          </div>
+          <p style="margin:0 0 6px;font-size:14px;font-weight:500;">${h.title}</p>
+          <p style="margin:0 0 12px;font-size:13px;color:var(--color-text-secondary);line-height:1.6;">${h.desc}</p>
+          <div style="display:flex;gap:16px;">
+            ${[['Impact',h.i,'#3266ad'],['Confidence',h.c,'#0F6E56'],['Ease',h.e,'#BA7517']].map(([l,v,col])=>`
+              <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:0;">
+                <span style="font-size:11px;color:var(--color-text-secondary);white-space:nowrap;">${l}</span>
+                <div style="height:4px;background:var(--color-background-secondary);border-radius:2px;flex:1;">
+                  <div style="width:${v*10}%;height:100%;background:${col};border-radius:2px;"></div>
+                </div>
+                <span style="font-size:11px;color:var(--color-text-secondary);">${v}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <button class="gbtn" onclick="getBrief(${h.id})" aria-label="Generate brief for ${h.title}">Generate brief ↗</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function getBrief(id){
+  const h=hyps.find(x=>x.id===id);
+  sTab('brief',document.querySelectorAll('.cro-tab')[2]);
+  const wrap=document.getElementById('bwrap');
+  wrap.innerHTML=`<div style="text-align:center;padding:3rem 1rem;"><i class="ti ti-loader-2" aria-hidden="true" style="font-size:28px;display:block;margin:0 auto 1rem;color:var(--color-text-secondary);animation:spin 1.2s linear infinite;"></i><p style="margin:0;font-size:14px;color:var(--color-text-secondary);">Generating A/B test brief via Claude API...</p><p style="margin:8px 0 0;font-size:12px;color:var(--color-text-secondary);">"${h.title}"</p></div>`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:'You are a senior CRO specialist at an online mental health therapy platform. Funnel: Page View → Authorization (signup) → First Therapy Session Created → First Purchase. Users are emotionally vulnerable; aggressive conversion tactics backfire and erode trust. Return ONLY valid JSON with no markdown, no preamble, no backticks. Fields: hypothesis (string), control (string), variant (string), primaryMetric (string), secondaryMetrics (array of exactly 3 strings), minimumDetectableEffect (string), estimatedSampleSize (string), testDuration (string), successCriteria (string), risks (string).',
+        messages:[{role:'user',content:`Write a complete A/B test brief for this hypothesis: "${h.title}". Context: ${h.desc}. Funnel stage: ${h.stage}.`}]
+      })
+    });
+    const d=await r.json();
+    const txt=(d.content||[]).find(b=>b.type==='text')?.text||'';
+    const brief=JSON.parse(txt.replace(/```json|```/g,'').trim());
+    showBrief(brief,h);
+  }catch(e){
+    wrap.innerHTML=`<div style="padding:1.25rem;background:var(--color-background-danger);border:0.5px solid var(--color-border-danger);border-radius:var(--border-radius-lg);"><p style="margin:0;color:var(--color-text-danger);font-size:13px;"><i class="ti ti-alert-circle" aria-hidden="true" style="margin-right:6px;vertical-align:-2px;"></i>Could not generate brief. Please try again.</p></div>`;
+  }
+}
+
+function showBrief(b,h){
+  const wrap=document.getElementById('bwrap');
+  const ss=ssc(h.sk);
+  const fields=[
+    {label:'Hypothesis',key:'hypothesis',full:true,primary:true},
+    {label:'Control — current experience',key:'control',full:false},
+    {label:'Variant — test experience',key:'variant',full:false},
+    {label:'Primary metric',key:'primaryMetric',full:false},
+    {label:'Estimated sample size',key:'estimatedSampleSize',full:false},
+    {label:'Min. detectable effect',key:'minimumDetectableEffect',full:false},
+    {label:'Test duration',key:'testDuration',full:false},
+    {label:'Success criteria',key:'successCriteria',full:false},
+    {label:'Risks and mitigation',key:'risks',full:true},
+  ];
+  wrap.innerHTML=`
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;">
+        <span class="bdg" style="${ss}">${h.stage}</span>
+        <p style="margin:0;font-size:14px;font-weight:500;">${h.title}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        ${fields.map(f=>`
+          <div class="bf" style="${f.full?'grid-column:1/-1;':''}">
+            <p class="flabel">${f.label}</p>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:var(--color-text-${f.primary?'primary':'secondary'});">${b[f.key]||'—'}</p>
+          </div>
+        `).join('')}
+        <div class="bf">
+          <p class="flabel">Secondary metrics</p>
+          ${(b.secondaryMetrics||[]).map(m=>`<p style="margin:0 0 4px;font-size:13px;line-height:1.5;color:var(--color-text-secondary);">· ${m}</p>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);">
+        <p style="margin:0;font-size:12px;color:var(--color-text-secondary);">Generated via Claude API · Demo built by Oluwanifemi Daniel as part of his Growth Marketing Specialist application</p>
+      </div>
+    </div>
+  `;
+}
+
+renderH();
+</script>
